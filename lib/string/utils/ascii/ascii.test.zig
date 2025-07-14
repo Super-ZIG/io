@@ -1,12 +1,10 @@
-// Copyright (c) 2025 Maysara, All rights reserved.
+// ascii.test.zig !
 //
-// repo : https://github.com/Super-ZIG/io
-// docs : https://super-zig.github.io/io/string/ascii
+// repo   : https://github.com/Super-ZIG/io
+// docs   : https://super-zig.github.io/io/string/utils/ascii
+// author : https://github.com/maysara-elshewehy
 //
-// owner : https://github.com/maysara-elshewehy
-// email : maysara.elshewehy@gmail.com
-//
-// Made with ❤️ by Maysara
+// Developed with ❤️ by Maysara.
 
 
 

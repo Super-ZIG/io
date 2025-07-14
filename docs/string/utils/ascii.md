@@ -22,7 +22,7 @@
 </div>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/version-0.0.8 dev.1-blue.svg" alt="Version" />
+    <img src="https://img.shields.io/badge/version-0.0.8 dev.2-blue.svg" alt="Version" />
     <a href="https://github.com/Super-ZIG/io/actions/workflows/main.yml">
         <img src="https://github.com/Super-ZIG/io/actions/workflows/main.yml/badge.svg" alt="CI" />
     </a>
@@ -123,27 +123,27 @@
 
     - #### Conversion
 
-        | Function | Description                                                                                    |
-        | -------- | ---------------------------------------------------------------------------------------------- |
-        | toUpper  | Converts a character to `uppercase`, If not a `lowercase` letter, it is returned `unchanged`.  |
-        | toLower  | Converts a character to `lowercase`, If not an `uppercase` letter, it is returned `unchanged`. |
+        | Function | Return | Description                                                                                    |
+        | -------- | ------ | ---------------------------------------------------------------------------------------------- |
+        | toUpper  | `u8`   | Converts a character to `uppercase`, If not a `lowercase` letter, it is returned `unchanged`.  |
+        | toLower  | `u8`   | Converts a character to `lowercase`, If not an `uppercase` letter, it is returned `unchanged`. |
 
     - #### Properties
 
-        | Function       | Description                                                                                             |
-        | -------------- | ------------------------------------------------------------------------------------------------------- |
-        | isUpper        | Returns true if the character is an uppercase letter (`A-Z`).                                           |
-        | isLower        | Returns true if the character is a lowercase letter (`a-z`).                                            |
-        | isAlphabetic   | Returns true if the character is an alphabetic letter (`A-Z`, `a-z`).                                   |
-        | isDigit        | Returns true if the character is a numeric digit (`0-9`).                                               |
-        | isAlphanumeric | Returns true if the character is alphanumeric (`A-Z`, `a-z`, `0-9`).                                    |
-        | isHex          | Returns true if the character is a hexadecimal digit (`0-9`, `A-F`, `a-f`).                             |
-        | isOctal        | Returns true if the character is an octal digit (`0-7`).                                                |
-        | isBinary       | Returns true if the character is a binary digit (`0-1`).                                                |
-        | isPunctuation  | Returns true if the character is a punctuation symbol (`!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, ..).     |
-        | isWhitespace   | Returns true if the character is a whitespace character (`space`, `tab`, `newline`, `carriage return`). |
-        | isPrintable    | Returns true if the character is printable (`A-Z`, `a-z`, `0-9`, `punctuation marks`, `space`).         |
-        | isControl      | Returns true if the character is a control character (`ASCII 0x00-0x1F or 0x7F`).                       |
+        | Function       | Return | Description                                                                                             |
+        | -------------- | ------ | ------------------------------------------------------------------------------------------------------- |
+        | isUpper        | `bool` | Returns true if the character is an uppercase letter (`A-Z`).                                           |
+        | isLower        | `bool` | Returns true if the character is a lowercase letter (`a-z`).                                            |
+        | isAlphabetic   | `bool` | Returns true if the character is an alphabetic letter (`A-Z`, `a-z`).                                   |
+        | isDigit        | `bool` | Returns true if the character is a numeric digit (`0-9`).                                               |
+        | isAlphanumeric | `bool` | Returns true if the character is alphanumeric (`A-Z`, `a-z`, `0-9`).                                    |
+        | isHex          | `bool` | Returns true if the character is a hexadecimal digit (`0-9`, `A-F`, `a-f`).                             |
+        | isOctal        | `bool` | Returns true if the character is an octal digit (`0-7`).                                                |
+        | isBinary       | `bool` | Returns true if the character is a binary digit (`0-1`).                                                |
+        | isPunctuation  | `bool` | Returns true if the character is a punctuation symbol (`!`, `@`, `#`, `$`, `%`, `^`, `&`, `*`, ..).     |
+        | isWhitespace   | `bool` | Returns true if the character is a whitespace character (`space`, `tab`, `newline`, `carriage return`). |
+        | isPrintable    | `bool` | Returns true if the character is printable (`A-Z`, `a-z`, `0-9`, `punctuation marks`, `space`).         |
+        | isControl      | `bool` | Returns true if the character is a control character (`ASCII 0x00-0x1F or 0x7F`).                       |
 
 <br>
 <div align="center">
@@ -164,27 +164,27 @@
 
         > _**In summary**, the two run at **the same speed** because they share almost the same code. ✨_
 
-        - #### Debug Build (`zig build run -- ascii`)
+        - #### Debug Build (`zig build run --release=safe -- ascii`)
 
-            | Implementation | Scale | Runs   | Total Time | Avg Time/Run |
-            | -------------- | ----- | ------ | ---------- | ------------ |
-            | `std`          | x10   | 100000 | 793.9ms    | 7.9μs        |
-            | `io`           | x10   | 100000 | 821.5ms    | 8.2μs        |
-            | `std`          | x1k   | 2221   | 2.4s       | 1.1ms        |
-            | `io`           | x1k   | 2549   | 2.0s       | 801.5μs      |
-            | `std`          | x100k | 25     | 2.0s       | 78.4ms       |
-            | `io`           | x100k | 26     | 1.9s       | 72.7ms       |
+            | Benchmark | Runs   | Total Time | Avg Time | Speed |
+            | --------- | ------ | ---------- | -------- | ----- |
+            | std_x10   | 100000 | 2.2ms      | 22ns     | x1.00 |
+            | io_x10    | 100000 | 1.9ms      | 19ns     | x1.16 |
+            | std_x100  | 100000 | 5.9ms      | 59ns     | x1.00 |
+            | io_x100   | 100000 | 5.2ms      | 52ns     | x1.13 |
+            | std_x1000 | 100000 | 30.3ms     | 303ns    | x1.00 |
+            | io_x1000  | 100000 | 30.5ms     | 305ns    | x0.99 |
 
         - #### Release Build (`zig build run --release=fast -- ascii`)
 
-            | Implementation | Scale | Runs   | Total Time | Avg Time/Run |
-            | -------------- | ----- | ------ | ---------- | ------------ |
-            | `std`          | x10   | 100000 | 1.5ms      | 15ns         |
-            | `io`           | x10   | 100000 | 1.5ms      | 14ns         |
-            | `std`          | x1k   | 100000 | 1.5ms      | 14ns         |
-            | `io`           | x1k   | 100000 | 1.4ms      | 14ns         |
-            | `std`          | x100k | 100000 | 1.4ms      | 13ns         |
-            | `io`           | x100k | 100000 | 1.3ms      | 13ns         |
+            | Benchmark | Runs   | Total Time | Avg Time | Speed |
+            | --------- | ------ | ---------- | -------- | ----- |
+            | std_x10   | 100000 | 1.6ms      | 16ns     | x1.00 |
+            | io_x10    | 100000 | 1.5ms      | 15ns     | x1.07 |
+            | std_x100  | 100000 | 5.2ms      | 52ns     | x1.00 |
+            | io_x100   | 100000 | 5.2ms      | 52ns     | x1.00 |
+            | std_x1000 | 100000 | 31.1ms     | 311ns    | x1.00 |
+            | io_x1000  | 100000 | 31ms       | 310ns    | x1.00 |
 
     > **It is normal for the values ​​to differ each time the benchmark is run, but in general these percentages will remain close.**
 

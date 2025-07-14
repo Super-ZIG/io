@@ -1,12 +1,10 @@
-// Copyright (c) 2025 Maysara, All rights reserved.
+// io.zig — Central entry point for I/O library.
 //
-// repo : https://github.com/Super-ZIG/io
-// docs : https://super-zig.github.io/io
+// repo   : https://github.com/Super-ZIG/io
+// docs   : https://super-zig.github.io/io
+// author : https://github.com/maysara-elshewehy
 //
-// owner : https://github.com/maysara-elshewehy
-// email : maysara.elshewehy@gmail.com
-//
-// Made with ❤️ by Maysara
+// Developed with ❤️ by Maysara.
 
 
 

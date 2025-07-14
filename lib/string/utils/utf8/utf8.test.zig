@@ -43,9 +43,8 @@
             for (tests) |t| {
                 const len = utf8.encode(t.codepoint, &buf);
                 try testing.expectEqual(t.slice.len, len);
-                for (0..len) |i| {
-                    try testing.expectEqual(t.slice[i], buf[i]);
-                }
+                for (0..len) |i|
+                try testing.expectEqual(t.slice[i], buf[i]);
             }
         }
 
@@ -67,15 +66,41 @@
             try testing.expectEqual(@as(u3, 2), utf8.getCodepointLength(0x00A9));
             try testing.expectEqual(@as(u3, 3), utf8.getCodepointLength(0x20AC));
             try testing.expectEqual(@as(u3, 4), utf8.getCodepointLength(0x1F600));
-            try testing.expectEqual(@as(u3, 0), utf8.getCodepointLength(0x110000));
+            try testing.expectEqual(null,       utf8.getCodepointLengthOrNull(0x110000));
         }
 
-        test "utf8.getFirstByteLength" {
-            try testing.expectEqual(@as(u3, 1), utf8.getFirstByteLength('A'));
-            try testing.expectEqual(@as(u3, 2), utf8.getFirstByteLength(0xC2));
-            try testing.expectEqual(@as(u3, 3), utf8.getFirstByteLength(0xE2));
-            try testing.expectEqual(@as(u3, 4), utf8.getFirstByteLength(0xF0));
-            try testing.expectEqual(@as(u3, 0), utf8.getFirstByteLength(0xF8));
+        test "utf8.getSequenceLength" {
+            try testing.expectEqual(@as(u3, 1), utf8.getSequenceLength('A'));
+            try testing.expectEqual(@as(u3, 2), utf8.getSequenceLength(0xC2));
+            try testing.expectEqual(@as(u3, 3), utf8.getSequenceLength(0xE2));
+            try testing.expectEqual(@as(u3, 4), utf8.getSequenceLength(0xF0));
+            try testing.expectEqual(null,       utf8.getSequenceLengthOrNull(0xF8));
+        }
+
+        test "utf8.isValidSlice" {
+            // Valid UTF-8 sequences
+            try testing.expect(utf8.isValidSlice(""));
+            try testing.expect(utf8.isValidSlice("Hello"));
+            try testing.expect(utf8.isValidSlice("Hello 世界"));
+            try testing.expect(utf8.isValidSlice("🌍🌎🌏"));
+
+            // Invalid UTF-8 sequences
+            try testing.expect(!utf8.isValidSlice(&[_]u8{0xFF}));
+            try testing.expect(!utf8.isValidSlice(&[_]u8{0xC0, 0x80}));
+            try testing.expect(!utf8.isValidSlice(&[_]u8{0xE0, 0x80}));
+            try testing.expect(!utf8.isValidSlice(&[_]u8{0xF0, 0x80, 0x80}));
+        }
+
+        test "utf8.isValidCodepoint" {
+            // Valid UTF-8 sequences
+            try testing.expect(utf8.isValidCodepoint('A'));
+            try testing.expect(utf8.isValidCodepoint('🌍'));
+            try testing.expect(utf8.isValidCodepoint('世'));
+
+            // Invalid UTF-8 sequences
+            try testing.expect(!utf8.isValidCodepoint(0x110000));
+
+            // ...
         }
 
     // └──────────────────────────────────────────────────────────────┘

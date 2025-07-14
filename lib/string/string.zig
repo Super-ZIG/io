@@ -1,12 +1,10 @@
-// Copyright (c) 2025 Maysara, All rights reserved.
+// string.zig — String handling module for I/O library.
 //
-// repo : https://github.com/Super-ZIG/io
-// docs : https://super-zig.github.io/io/string
+// repo   : https://github.com/Super-ZIG/io
+// docs   : https://super-zig.github.io/io/string
+// author : https://github.com/maysara-elshewehy
 //
-// owner : https://github.com/maysara-elshewehy
-// email : maysara.elshewehy@gmail.com
-//
-// Made with ❤️ by Maysara
+// Developed with ❤️ by Maysara.
 
 
 
@@ -15,11 +13,11 @@
     /// A utility module for efficient string manipulation, providing various tools
     /// for handling ASCII, UTF-8, codepoints, graphemes, and memory operations.
     pub const utils = .{
-        .ascii      = @import("./utils/ascii.zig"),
-        .utf8       = @import("./utils/utf8.zig"),
-        .codepoint  = @import("./utils/codepoint.zig"),
-        .grapheme   = @import("./utils/grapheme.zig"),
-        .memory     = @import("./utils/memory.zig"),
+        .ascii      = @import("./utils/ascii/ascii.zig"),
+        .utf8       = @import("./utils/utf8/utf8.zig"),
+        .codepoint  = @import("./utils/codepoint/codepoint.zig"),
+        .grapheme   = @import("./utils/grapheme/grapheme.zig"),
+        .memory     = @import("./utils/memory/memory.zig"),
     };
 
 // ╚══════════════════════════════════════════════════════════════════════════════════╝
@@ -30,11 +28,11 @@
 
     test {
         // utils
-        _ = @import("./utils/ascii.test.zig");
-        _ = @import("./utils/utf8.test.zig");
-        _ = @import("./utils/codepoint.test.zig");
-        _ = @import("./utils/grapheme.test.zig");
-        _ = @import("./utils/memory.test.zig");
+        _ = @import("./utils/ascii/ascii.test.zig");
+        _ = @import("./utils/utf8/utf8.test.zig");
+        _ = @import("./utils/codepoint/codepoint.test.zig");
+        _ = @import("./utils/grapheme/grapheme.test.zig");
+        _ = @import("./utils/memory/memory.test.zig");
     }
 
 // ╚══════════════════════════════════════════════════════════════════════════════════╝

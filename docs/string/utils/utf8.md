@@ -22,7 +22,7 @@
 </div>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/version-0.0.8 dev.1-blue.svg" alt="Version" />
+    <img src="https://img.shields.io/badge/version-0.0.8 dev.2-blue.svg" alt="Version" />
     <a href="https://github.com/Super-ZIG/io/actions/workflows/main.yml">
         <img src="https://github.com/Super-ZIG/io/actions/workflows/main.yml/badge.svg" alt="CI" />
     </a>
@@ -92,27 +92,26 @@
     > Convert slice to codepoint
 
     ```zig
-    const cp = utf8.decode("😀");                   // cp 👉 0x1F600
+    _ = utf8.decode("🌟").?;                // 👉 0x1F31F
     ```
 
     > Convert codepoint to slice
 
     ```zig
-    var buf: [4]u8 = undefined;
-    const len = utf8.encode(0x1F600, &buf);         // len 👉 4
-                                                    // buf 👉 "😀"
+    var buf: [4]u8 = undefined;             // 👉 "🌟"
+    _ = utf8.encode(0x1F31F, &buf).?;       // 👉 4
     ```
 
     > Get codepoint length
 
     ```zig
-    const len = utf8.getCodepointLength(0x1F600)    // 👉 4
+    _ = utf8.getCodepointLength(0x1F31F);   // 👉 4
     ```
 
     > Get UTF-8 sequence length
 
     ```zig
-    const len = utf8.getCodepointLength("😀"[0])    // 👉 4
+    _ = utf8.getCodepointLength("🌟"[0]);   // 👉 4
     ```
 
 <br>
@@ -128,19 +127,28 @@
 
 - ### API
 
-    - #### Conversion
+    - #### Encoding / Decoding
 
-        | Function | Description                                                                                        |
-        | -------- | -------------------------------------------------------------------------------------------------- |
-        | encode   | Fast encode a single Unicode `codepoint` to `UTF-8 sequence`, Returns the number of bytes written. |
-        | decode   | Fast decode a `UTF-8 sequence` to a Unicode `codepoint`, Returns the number of bytes read.         |
+        | Function | Return | Description                                                                                   |
+        | -------- | ------ | --------------------------------------------------------------------------------------------- |
+        | encode   | `u3`   | Encode a single Unicode `codepoint` to `UTF-8 sequence`, Returns the number of bytes written. |
+        | decode   | `u21`  | Decode a `UTF-8 sequence` to a Unicode `codepoint`, Returns the decoded codepoint.            |
 
     - #### Properties
 
-        | Function           | Description                                                                                 |
-        | ------------------ | ------------------------------------------------------------------------------------------- |
-        | getCodepointLength | Returns the number of bytes (`1-4`) needed to encode a `codepoint` in UTF-8 format.         |
-        | getFirstByteLength | Returns the expected number of bytes (`1-4`) in a `UTF-8 sequence` based on the first byte. |
+        | Function                 | Return | Description                                                                                  |
+        | ------------------------ | ------ | -------------------------------------------------------------------------------------------- |
+        | getCodepointLength       | `u3`   | Returns the number of bytes (`1-4`) needed to encode a `codepoint` in UTF-8 format.          |
+        | getCodepointLengthOrNull | `?u3`  | Returns the number of bytes (`1-4`) needed to encode a `codepoint` in UTF-8 format if valid. |
+        | getSequenceLength        | `u3`   | Returns the number of bytes (`1-4`) in a `UTF-8 sequence` based on the first byte.           |
+        | getSequenceLengthOrNull  | `?u3`  | Returns the number of bytes (`1-4`) in a `UTF-8 sequence` based on the first byte if valid.  |
+
+    - #### Validation
+
+        | Function         | Return | Description                                                            |
+        | ---------------- | ------ | ---------------------------------------------------------------------- |
+        | isValidSlice     | `bool` | Returns true if the provided slice contains valid `UTF-8 sequence`.    |
+        | isValidCodepoint | `bool` | Returns true if the provided code point is valid for `UTF-8 encoding`. |
 
 <br>
 <div align="center">
@@ -161,27 +169,27 @@
 
         > _**In summary**, `io` is faster by **5 times** compared to `std` in most cases, thanks to its optimized implementation. ✨_
 
-        - #### Debug Build (`zig build run -- utf8`)
+        - #### Debug Build (`zig build run --release=safe -- utf8`)
 
-            | Implementation | Scale | Runs | Total Time | Avg Time/Run |
-            | -------------- | ----- | ---- | ---------- | ------------ |
-            | `std`          | x10   | 1099 | 2.01s      | 1.829ms      |
-            | `io`           | x10   | 3158 | 2.043s     | 646.947μs    |
-            | `std`          | x1k   | 10   | 1.885s     | 188.5ms      |
-            | `io`           | x1k   | 32   | 2.031s     | 63.473ms     |
-            | `std`          | x100k | 1    | 18.938s    | 18.938s      |
-            | `io`           | x100k | 1    | 6.38s      | 6.38s        |
+            | Benchmark | Runs   | Total Time | Avg Time | Speed |
+            | --------- | ------ | ---------- | -------- | ----- |
+            | std_x10   | 100000 | 92.7ms     | 927ns    | x1.00 |
+            | io_x10    | 100000 | 31.9ms     | 319ns    | x2.91 |
+            | std_x100  | 21485  | 1.959s     | 91.188us | x1.00 |
+            | io_x100   | 96186  | 1.997s     | 20.768us | x4.39 |
+            | std_x1000 | 218    | 2.067s     | 9.482ms  | x1.00 |
+            | io_x1000  | 961    | 1.87s      | 1.946ms  | x4.87 |
 
         - #### Release Build (`zig build run --release=fast -- utf8`)
 
-            | Implementation | Scale | Runs  | Total Time | Avg Time/Run |
-            | -------------- | ----- | ----- | ---------- | ------------ |
-            | `std`          | x10   | 10829 | 1.963s     | 181.28μs     |
-            | `io`           | x10   | 60651 | 1.951s     | 32.169μs     |
-            | `std`          | x1k   | 103   | 1.974s     | 19.171ms     |
-            | `io`           | x1k   | 592   | 2.101s     | 3.55ms       |
-            | `std`          | x100k | 1     | 1.936s     | 1.936s       |
-            | `io`           | x100k | 5     | 1.764s     | 352.809ms    |
+            | Benchmark | Runs   | Total Time | Avg Time | Speed |
+            | --------- | ------ | ---------- | -------- | ----- |
+            | std_x10   | 100000 | 102.6ms    | 1.026us  | x1.00 |
+            | io_x10    | 100000 | 29.1ms     | 291ns    | x3.53 |
+            | std_x100  | 20653  | 1.915s     | 92.771us | x1.00 |
+            | io_x100   | 100000 | 1.796s     | 17.962us | x5.16 |
+            | std_x1000 | 232    | 2.028s     | 8.742ms  | x1.00 |
+            | io_x1000  | 1176   | 2.07s      | 1.76ms   | x4.96 |
 
     > **It is normal for the values ​​to differ each time the benchmark is run, but in general these percentages will remain close.**
 

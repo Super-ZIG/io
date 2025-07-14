@@ -1,18 +1,3 @@
-<!----------------------------------- CSS ----------------------------------->
-
-<style>
-@font-face {
-    font-family: 'Chakra Petch';
-    src: url('https://raw.githubusercontent.com/maysara-elshewehy/SuperZIG-assets/refs/heads/main/dist/fonts/Chakra_Petch/ChakraPetch-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-</style>
-
-<!--------------------------------------------------------------------------->
-
-
-
 <!----------------------------------- BEG ----------------------------------->
 <br>
 <div align="center">
@@ -22,7 +7,7 @@
 </div>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/version-0.0.8 dev.1-blue.svg" alt="Version" />
+    <img src="https://img.shields.io/badge/version-0.0.8 dev.2-blue.svg" alt="Version" />
     <a href="https://github.com/Super-ZIG/io/actions/workflows/main.yml">
         <img src="https://github.com/Super-ZIG/io/actions/workflows/main.yml/badge.svg" alt="CI" />
     </a>
@@ -91,7 +76,7 @@
         - ##### Utils
           - ##### [ascii](https://super-zig.github.io/io/string/utils/ascii)
           - ##### [utf8](https://super-zig.github.io/io/string/utils/utf8)
-          > - ##### codepoint
+          - ##### [codepoint](https://super-zig.github.io/io/string/utils/codepoint)
           > - ##### grapheme
           > - ##### memory
 
@@ -120,12 +105,7 @@
 
 - ### Benchmark
 
-    > A quick summary with sample performance test results between _**`SuperZIG`.`io`**_ implementations and its popular competitors.
-
-    | Implementation                                                                   | Competitor    | Result                 |
-    | -------------------------------------------------------------------------------- | ------------- | ---------------------- |
-    | [`io.string.ascii`](https://super-zig.github.io/io/string/utils/ascii#Benchmark) | `std.ascii`   | same speed             |
-    | [`io.string.utf8`](https://super-zig.github.io/io/string/utils/utf8#Benchmark)   | `std.unicode` | up to **x5 faster ⚡** |
+    > [See benchmark results comparing `SuperZIG.io` with popular alternatives.](https://github.com/Super-ZIG/io-bench)
 
 <br>
 <div align="center">
